@@ -1,0 +1,25 @@
+.App {
+  text-align: center;
+  margin-top: 40px;
+}
+
+form {
+  display: inline-block;
+  text-align: left;
+}
+
+label {
+  display: block;
+  margin: 10px 0;
+}
+
+input {
+  padding: 8px;
+  margin-left: 10px;
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
