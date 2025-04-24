@@ -15,10 +15,23 @@ function App() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // You can integrate an API call here
+  
+    const data = { firstname:formData.firstname, lastname:formData.lastname, age:formData.age };
+  
+    try {
+      const response = await fetch('http://localhost:5000/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+  
+      const result = await response.json();
+      console.log('Result:', result);
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   return (
