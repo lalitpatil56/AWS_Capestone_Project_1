@@ -11,6 +11,11 @@ const port = process.env.PORT || 5000;
 // Middleware
 app.use(cors());
 app.use(express.json());
+/*
+app.use(cors({
+  origin: 'https://myapp.com', // or '*' for dev
+}));
+*/
 
 // Configure AWS SDK
 AWS.config.update({
