@@ -16,9 +16,9 @@ phases:
   build:
     commands:
       - echo Building frontend...
-      - cd ../frontend && npm run build
+      - cd frontend && npm run build && cd ..
       - echo Zipping backend...
-      - cd ../backend && zip -r ../backend.zip .
+      - cd backend && zip -r ../backend.zip .
 
 artifacts:
   files:
