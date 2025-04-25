@@ -13,10 +13,10 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 export NVM_DIR="/home/ec2-user/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
-# Install Node.js 18 and set it as default
-nvm install 18
-nvm use 18
-nvm alias default 18
+# Install Node.js 16 and set it as default
+nvm install 16
+nvm use 16
+nvm alias default 16
 
 # Verify
 echo "Verifying Node.js and npm installation..."
