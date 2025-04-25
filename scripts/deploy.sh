@@ -1,10 +1,14 @@
 #!/bin/bash
 
-# Backend
-echo "Deploying backend..."
-cd /home/ec2-user/backend
-npm install
-pm2 stop all || true
-pm2 start server.js --name backend
+echo "Running deploy.sh"
 
-# Frontend is just static in /var/www/html
+cd /home/ec2-user/backend
+
+# Kill existing Node.js server (if running)
+pkill -f "node server.js" || true
+
+# Install dependencies and restart backend
+npm install
+
+# Run the app (or use PM2 or systemd for production)
+nohup node server.js > server.log 2>&1 &

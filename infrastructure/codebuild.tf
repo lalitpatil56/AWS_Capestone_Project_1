@@ -1,16 +1,17 @@
-resource "aws_codebuild_project" "frontend_build" {
-  name         = "webapp-frontend-build"
-  description  = "Build React frontend and upload to S3"
+resource "aws_codebuild_project" "webapp_build" {
+  name        = "webapp-build"
+  description = "Build React frontend to S3 and backend to ASG"
   service_role = aws_iam_role.codebuild_role.arn
 
   artifacts {
-    type = "NO_ARTIFACTS"
+    type = "CODEPIPELINE"
   }
 
   environment {
     compute_type                = "BUILD_GENERAL1_SMALL"
     image                       = "aws/codebuild/standard:7.0"
     type                        = "LINUX_CONTAINER"
+
     environment_variable {
       name  = "S3_BUCKET"
       value = "s3frontendbuild1"
@@ -18,13 +19,8 @@ resource "aws_codebuild_project" "frontend_build" {
   }
 
   source {
-    type      = "GITHUB"
-    location  = "https://github.com/lalitpatil56/AWS_Capestone_Project_1.git"
+    type      = "CODEPIPELINE"
     buildspec = "buildspec.yml"
-  }
-  
-  cache {
-    type = "NO_CACHE"
   }
 }
 

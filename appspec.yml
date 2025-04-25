@@ -1,11 +1,11 @@
 version: 0.0
 os: linux
 files:
-  - source: /build
-    destination: /var/www/html
+  - source: /
+    destination: /home/ec2-user/backend
 
 hooks:
   AfterInstall:
-    - location: scripts/install.sh
+    - location: scripts/deploy.sh
       timeout: 300
-      runas: root
+      runas: ec2-user

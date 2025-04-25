@@ -1,19 +1,32 @@
 version: 0.2
 
+env:
+  variables:
+    S3_BUCKET: s3frontendbuild1 # your existing S3 bucket name
+
 phases:
   install:
     runtime-versions:
-      nodejs: 14
+      nodejs: 18
     commands:
-      - echo Installing basic packages...
+      - echo Installing dependencies...
+      - cd frontend && npm install && cd ..
+      - cd backend && npm install && cd ..
+  
   build:
     commands:
-      - echo Building a simple HTML file...
-      - mkdir -p build
-      - echo "<h1>Deployment Test Successful 🚀</h1>" > build/index.html
+      - echo Building frontend...
+      - cd ../frontend && npm run build
+      - echo Zipping backend...
+      - cd ../backend && zip -r ../backend.zip .
 
 artifacts:
   files:
-    - build/**/*
+    - backend.zip
     - appspec.yml
-    - scripts/install.sh
+    - scripts/**
+  secondary-artifacts:
+    frontend:
+      base-directory: frontend/build
+      files:
+        - '**/*'
