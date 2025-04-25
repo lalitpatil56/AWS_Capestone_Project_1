@@ -10,6 +10,12 @@ resource "aws_security_group" "ec2_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  ingress {
+  from_port   = 22
+  to_port     = 22
+  protocol    = "tcp"
+  cidr_blocks = ["184.162.218.200/32"]
+}
 
   egress {
     from_port   = 0
@@ -34,6 +40,7 @@ resource "aws_security_group" "alb_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  
   egress {
     from_port   = 0
     to_port     = 0
@@ -48,22 +55,25 @@ resource "aws_security_group" "alb_sg" {
 resource "aws_launch_template" "webapp" {
   name_prefix   = "webapp-"
   image_id      = "ami-0c02fb55956c7d316"  # Amazon Linux 2 AMI (us-east-1)
-  instance_type = "t2.micro"
+  instance_type = "t2.medium"
+  
 
   iam_instance_profile {
   name = aws_iam_instance_profile.ec2_profile.name
 }
 /*
-  user_data = base64encode(<<EOF
+ user_data = base64encode(<<EOF
 #!/bin/bash
 sudo yum update -y
 sudo yum install -y httpd
+PUBLIC_IP=$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)
 echo "<h1>Hello from Auto Scaling Group EC2!</h1>" > /var/www/html/index.html
+echo "<p>Public IP: \$PUBLIC_IP</p>" >> /var/www/html/index.html
 sudo systemctl start httpd
 sudo systemctl enable httpd
 EOF
-  )
-  */
+)
+*/
 user_data = base64encode(<<EOF
 #!/bin/bash
 yum update -y
@@ -76,6 +86,7 @@ systemctl start codedeploy-agent
 systemctl enable codedeploy-agent
 EOF
   )
+
 
 
   network_interfaces {
