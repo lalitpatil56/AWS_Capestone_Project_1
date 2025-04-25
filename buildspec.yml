@@ -14,10 +14,11 @@ phases:
       - echo Building frontend...
       - cd frontend && npm run build && cd ..
       - echo Preparing backend for deployment...
-      - mkdir -p build/backend
-      - cp -r backend/* build/backend/
+      - mkdir -p build
+      - cp -r backend/* build/
+      # include your scripts folder if it exists inside backend
       - cp appspec.yml build/
-      - cd build && zip -r backend.zip backend appspec.yml && cd ..
+      - cd build && zip -r backend.zip . && cd ..
 
 artifacts:
   files:
