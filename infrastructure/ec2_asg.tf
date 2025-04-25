@@ -53,7 +53,7 @@ resource "aws_launch_template" "webapp" {
   iam_instance_profile {
   name = aws_iam_instance_profile.ec2_profile.name
 }
-
+/*
   user_data = base64encode(<<EOF
 #!/bin/bash
 sudo yum update -y
@@ -63,6 +63,20 @@ sudo systemctl start httpd
 sudo systemctl enable httpd
 EOF
   )
+  */
+user_data = base64encode(<<EOF
+#!/bin/bash
+yum update -y
+yum install -y ruby wget
+cd /home/ec2-user
+wget https://aws-codedeploy-us-east-1.s3.us-east-1.amazonaws.com/latest/install
+chmod +x ./install
+./install auto
+systemctl start codedeploy-agent
+systemctl enable codedeploy-agent
+EOF
+  )
+
 
   network_interfaces {
     associate_public_ip_address = true
