@@ -23,6 +23,14 @@ phases:
         sudo systemctl start nginx
         EOF
       - chmod +x scripts/install_nginx.sh
+      - echo "Creating delete_default.sh..."
+      - |
+        cat <<EOF > scripts/delete_default.sh
+        #!/bin/bash
+        sudo rm -rf /usr/share/nginx/html/*
+        EOF
+      - chmod +x scripts/delete_default.sh
+      
       - echo "Creating appspec.yml..."
       - |
         cat <<EOF > appspec.yml
@@ -38,10 +46,14 @@ phases:
             - location: scripts/install_nginx.sh
               timeout: 300
               runas: root
+            - location: scripts/delete_default.sh
+              timeout: 300
+              runas: root
         EOF
 
 artifacts:
   files:
     - index.html
     - scripts/install_nginx.sh
+    - scripts/delete_default.sh
     - appspec.yml
