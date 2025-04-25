@@ -5,6 +5,8 @@ phases:
     runtime-versions:
       nodejs: 18
     commands:
+      - echo Installing frontend dependencies...
+      - cd frontend && npm install && cd ..
       - echo Installing dependencies...
       - cd backend && npm install && cd ..
       - mkdir -p build
@@ -12,11 +14,15 @@ phases:
       - cp -r backend/scripts build/
       - cp appspec.yml build/
       - chmod +x build/scripts/install_node.sh
-      
+
 
   build:
     commands:
       - echo Build step complete
+      - echo Building frontend...
+      - cd frontend && npm run build && cd ..
+      - echo Uploading frontend build to S3...
+      - aws s3 sync frontend/build/ s3://capstone1frontend/ --delete
 
 artifacts:
   files:
