@@ -53,12 +53,29 @@ resource "aws_codedeploy_app" "webapp" {
   compute_platform  = "Server"
 }
 
+resource "aws_iam_role" "codedeploy_role" {
+  name = "codedeploy-service-role"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [{
+      Effect = "Allow",
+      Principal = {
+        Service = "codedeploy.amazonaws.com"
+      },
+      Action = "sts:AssumeRole"
+    }]
+  })
+}
 
+resource "aws_iam_role_policy_attachment" "codedeploy_role_policy" {
+  role       = aws_iam_role.codedeploy_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole"
+}
 
 resource "aws_codedeploy_deployment_group" "backend_group" {
   app_name              = aws_codedeploy_app.webapp.name
   deployment_group_name = "Backend-DeploymentGroup"
-  service_role_arn      = aws_iam_role.codebuild_role.arn
+  service_role_arn      = aws_iam_role.codedeploy_role.arn
 
   autoscaling_groups = [aws_autoscaling_group.webapp_asg.name]
 

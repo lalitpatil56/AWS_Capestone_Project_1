@@ -12,6 +12,31 @@ resource "aws_iam_role" "ec2_backend_role" {
     }]
   })
 }
+resource "aws_iam_policy" "ec2_s3_access_policy" {
+  name        = "EC2S3ReadAccessForDeploy"
+  description = "Allows EC2 to read from deployment bucket"
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [{
+      Effect = "Allow",
+      Action = [
+        "s3:GetObject",
+        "s3:GetObjectVersion"
+      ],
+      Resource = "arn:aws:s3:::capstone1frontend/*"
+    }]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "admin_access" {
+  role       = aws_iam_role.ec2_backend_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "attach_s3_read_policy_to_ec2_role" {
+  role       = aws_iam_role.ec2_backend_role.name  # Use actual EC2 instance profile role name
+  policy_arn = aws_iam_policy.ec2_s3_access_policy.arn
+}
 
 resource "aws_iam_policy" "dynamodb_access" {
   name = "webapp-dynamodb-access"

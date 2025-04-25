@@ -21,3 +21,9 @@ phases:
 artifacts:
   files:
     - build/backend.zip
+    
+  secondary-artifacts:
+    frontendArtifact:
+      base-directory: frontend/build
+      files:
+        - '**/*'
