@@ -8,16 +8,16 @@ files:
 
 hooks:
   BeforeInstall:
-    - location: backend/stop_server.sh
+    - location: scripts/stop_server.sh
       timeout: 60
       runas: ec2-user
 
   AfterInstall:
-    - location: install_node.sh
+    - location: scripts/install_node.sh
       timeout: 300
       runas: ec2-user
 
   ApplicationStart:
-    - location: start_server.sh
+    - location: scripts/start_server.sh
       timeout: 300
       runas: ec2-user

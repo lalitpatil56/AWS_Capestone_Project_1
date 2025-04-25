@@ -5,20 +5,17 @@ phases:
     runtime-versions:
       nodejs: 18
     commands:
-      - echo Installing Node.js dependencies...
+      - echo Installing dependencies...
       - cd backend && npm install && cd ..
       - mkdir -p build
       - cp -r backend/* build/
+      - cp -r backend/scripts build/
       - cp appspec.yml build/
-      - mkdir -p build/scripts
-      - cp scripts/*.sh build/scripts/
 
   build:
     commands:
-      - echo Zipping backend for deployment...
-      - cd build && zip -r backend.zip . && cd ..
+      - echo Build step complete (no frontend build in this test)
 
 artifacts:
   files:
-    - build/backend.zip
-    - appspec.yml
+    - build/**/*
