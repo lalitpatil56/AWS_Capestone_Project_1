@@ -1,3 +1,4 @@
-#!/bin/bash
-cd /home/ec2-user/backend
-nohup node server.js > app.log 2>&1 &
+npm install -g pm2
+pm2 start server.js --name myapp
+pm2 save
+pm2 startup

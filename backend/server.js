@@ -11,11 +11,10 @@ const port = process.env.PORT || 5000;
 // Middleware
 app.use(cors());
 app.use(express.json());
-/*
+
 app.use(cors({
-  origin: 'https://myapp.com', // or '*' for dev
+  origin: '*', // or '*' for dev
 }));
-*/
 
 // Configure AWS SDK
 AWS.config.update({
@@ -67,7 +66,7 @@ app.get('/users', async (req, res) => {
   }
 });
 
-app.listen(port, () => {
+app.listen(port,'0.0.0.0', () => {
   console.log(`Server running on port ${port}`);
 });
 
