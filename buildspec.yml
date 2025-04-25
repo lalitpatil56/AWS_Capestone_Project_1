@@ -9,18 +9,23 @@ phases:
         cat <<EOF > build/index.html
         <!DOCTYPE html>
         <html>
-        <head>
-          <title>CodeDeploy + Nginx Test</title>
-        </head>
-        <body>
-          <h1>Hello from CodeDeploy!</h1>
-          <p>Nginx is serving this file.</p>
-        </body>
+        <head><title>CodeDeploy Test</title></head>
+        <body><h1>Hello from CodeDeploy + Nginx</h1></body>
         </html>
         EOF
+      - echo "Creating install_nginx.sh..."
+      - |
+        cat <<EOF > build/scripts/install_nginx.sh
+        #!/bin/bash
+        sudo yum update -y
+        sudo amazon-linux-extras install nginx1 -y
+        sudo systemctl enable nginx
+        sudo systemctl start nginx
+        EOF
+      - chmod +x build/scripts/install_nginx.sh
       - echo "Creating appspec.yml..."
       - |
-        cat <<EOF > build/appspec.yml
+        cat <<EOF > appspec.yml
         version: 0.0
         os: linux
         files:
@@ -33,19 +38,9 @@ phases:
               timeout: 300
               runas: root
         EOF
-      - echo "Creating install_nginx.sh..."
-      - |
-        cat <<EOF > build/scripts/install_nginx.sh
-        #!/bin/bash
-        sudo yum update -y
-        sudo amazon-linux-extras install nginx1 -y
-        sudo systemctl enable nginx
-        sudo systemctl start nginx
-        EOF
-      - chmod +x build/scripts/install_nginx.sh
-      - echo "Zipping package..."
-      - cd build && zip -r ../backend.zip . && cd ..
 
 artifacts:
   files:
-    - backend.zip
+    - index.html
+    - scripts/install_nginx.sh
+    - appspec.yml
