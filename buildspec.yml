@@ -1,0 +1,21 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - echo Installing dependencies...
+      - cd frontend && npm install && npm run build && cd ..
+      - cd backend && npm install && cd ..
+  build:
+    commands:
+      - echo Build phase complete.
+
+artifacts:
+  files:
+    - backend/**/*           # Include backend code
+    - frontend/build/**/*    # Built frontend assets
+    - appspec.yml            # CodeDeploy instructions
+    - scripts/deploy.sh      # Deployment script
+  discard-paths: no

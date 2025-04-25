@@ -20,9 +20,9 @@ resource "aws_codebuild_project" "frontend_build" {
   source {
     type      = "GITHUB"
     location  = "https://github.com/lalitpatil56/AWS_Capestone_Project_1.git"
-    buildspec = "frontend/buildspec.yml"
+    buildspec = "/buildspec.yml"
   }
-
+  
   cache {
     type = "NO_CACHE"
   }
@@ -47,3 +47,4 @@ resource "aws_iam_role_policy_attachment" "codebuild_policy_attach" {
   role       = aws_iam_role.codebuild_role.name
   policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
 }
+
