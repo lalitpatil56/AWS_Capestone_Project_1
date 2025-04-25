@@ -4,9 +4,9 @@ phases:
   build:
     commands:
       - echo "Creating index.html..."
-      - mkdir -p build/scripts
+      - mkdir -p scripts
       - |
-        cat <<EOF > build/index.html
+        cat <<EOF > index.html
         <!DOCTYPE html>
         <html>
         <head><title>CodeDeploy Test</title></head>
@@ -15,14 +15,14 @@ phases:
         EOF
       - echo "Creating install_nginx.sh..."
       - |
-        cat <<EOF > build/scripts/install_nginx.sh
+        cat <<EOF > scripts/install_nginx.sh
         #!/bin/bash
         sudo yum update -y
         sudo amazon-linux-extras install nginx1 -y
         sudo systemctl enable nginx
         sudo systemctl start nginx
         EOF
-      - chmod +x build/scripts/install_nginx.sh
+      - chmod +x scripts/install_nginx.sh
       - echo "Creating appspec.yml..."
       - |
         cat <<EOF > appspec.yml
