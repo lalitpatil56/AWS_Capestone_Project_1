@@ -1,31 +1,51 @@
 version: 0.2
 
 phases:
-  install:
-    runtime-versions:
-      nodejs: 18
-    commands:
-      - echo Installing dependencies...
-      - cd frontend && npm install && cd ..
-      - cd backend && npm install && cd ..
-
   build:
     commands:
-      - echo Building frontend...
-      - cd frontend && npm run build && cd ..
-      - echo Preparing backend for deployment...
-      - mkdir -p build
-      - cp -r backend/* build/
-      # include your scripts folder if it exists inside backend
-      - cp appspec.yml build/
-      - cd build && zip -r backend.zip appspec.yml && cd ..
+      - echo "Creating index.html..."
+      - mkdir -p build/scripts
+      - |
+        cat <<EOF > build/index.html
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>CodeDeploy + Nginx Test</title>
+        </head>
+        <body>
+          <h1>Hello from CodeDeploy!</h1>
+          <p>Nginx is serving this file.</p>
+        </body>
+        </html>
+        EOF
+      - echo "Creating appspec.yml..."
+      - |
+        cat <<EOF > build/appspec.yml
+        version: 0.0
+        os: linux
+        files:
+          - source: /
+            destination: /usr/share/nginx/html/
+            overwrite: true
+        hooks:
+          BeforeInstall:
+            - location: scripts/install_nginx.sh
+              timeout: 300
+              runas: root
+        EOF
+      - echo "Creating install_nginx.sh..."
+      - |
+        cat <<EOF > build/scripts/install_nginx.sh
+        #!/bin/bash
+        sudo yum update -y
+        sudo amazon-linux-extras install nginx1 -y
+        sudo systemctl enable nginx
+        sudo systemctl start nginx
+        EOF
+      - chmod +x build/scripts/install_nginx.sh
+      - echo "Zipping package..."
+      - cd build && zip -r ../backend.zip . && cd ..
 
 artifacts:
   files:
-    - build/backend.zip
-
-  secondary-artifacts:
-    frontendArtifact:
-      base-directory: frontend/build
-      files:
-        - '**/*'
+    - backend.zip

@@ -1,15 +1,7 @@
 version: 0.0
 os: linux
-files:
-  - source: backend
-    destination: /home/ec2-user/backend
-hooks:
-  AfterInstall:
-    - location: backend/install.sh
-      timeout: 300
-      runas: ec2-user
-  ApplicationStart:
-    - location: backend/start.sh
-      timeout: 300
-      runas: ec2-user
 
+files:
+  - source: /
+    destination: /var/www/html/
+    overwrite: true
