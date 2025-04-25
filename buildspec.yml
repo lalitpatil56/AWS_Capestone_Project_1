@@ -13,15 +13,16 @@ phases:
     commands:
       - echo Building frontend...
       - cd frontend && npm run build && cd ..
-      - echo Zipping backend for deployment...
+      - echo Preparing backend for deployment...
       - mkdir -p build/backend
-      - cp -r backend appspec.yml build/backend/
-      - cd build/backend && zip -r ../backend.zip . && cd ../..
+      - cp -r backend/* build/backend/
+      - cp appspec.yml build/
+      - cd build && zip -r backend.zip backend appspec.yml && cd ..
 
 artifacts:
   files:
     - build/backend.zip
-    
+
   secondary-artifacts:
     frontendArtifact:
       base-directory: frontend/build

@@ -12,3 +12,4 @@ hooks:
     - location: backend/start.sh
       timeout: 300
       runas: ec2-user
+
