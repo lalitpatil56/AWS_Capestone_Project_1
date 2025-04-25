@@ -8,7 +8,7 @@ files:
 
 hooks:
   BeforeInstall:
-    - location: stop_server.sh
+    - location: backend/stop_server.sh
       timeout: 60
       runas: ec2-user
 
