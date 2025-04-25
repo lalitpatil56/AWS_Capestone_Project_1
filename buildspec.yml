@@ -11,6 +11,8 @@ phases:
       - cp -r backend/* build/
       - cp -r backend/scripts build/
       - cp appspec.yml build/
+      - chmod +x build/scripts/install_node.sh
+      
 
   build:
     commands:
