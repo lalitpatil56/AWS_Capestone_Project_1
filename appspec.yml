@@ -1,11 +1,14 @@
 version: 0.0
 os: linux
 files:
-  - source: /
+  - source: backend
     destination: /home/ec2-user/backend
-
 hooks:
   AfterInstall:
-    - location: scripts/deploy.sh
+    - location: backend/install.sh
+      timeout: 300
+      runas: ec2-user
+  ApplicationStart:
+    - location: backend/start.sh
       timeout: 300
       runas: ec2-user
