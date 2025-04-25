@@ -32,6 +32,7 @@ phases:
           - source: /
             destination: /usr/share/nginx/html/
             overwrite: true
+            runas: root 
         hooks:
           BeforeInstall:
             - location: scripts/install_nginx.sh
