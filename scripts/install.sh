@@ -13,7 +13,7 @@ fi
 PUBLIC_IP=$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)
 
 # Write HTML file with IP address
-echo "<h1>Deployment Test Successful 🚀</h1><p>EC2 Public IP: `$PUBLIC_IP`</p>" > /var/www/html/index.html
+echo "<h1>Deployment Test Successful 🚀</h1><p>EC2 Public IP: $PUBLIC_IP</p>" > /var/www/html/index.html
 
 # Start/restart the web server
 sudo systemctl restart httpd
