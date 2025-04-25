@@ -1,59 +1,24 @@
 version: 0.2
 
 phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - echo Installing Node.js dependencies...
+      - cd backend && npm install && cd ..
+      - mkdir -p build
+      - cp -r backend/* build/
+      - cp appspec.yml build/
+      - mkdir -p build/scripts
+      - cp scripts/*.sh build/scripts/
+
   build:
     commands:
-      - echo "Creating index.html..."
-      - mkdir -p scripts
-      - |
-        cat <<EOF > index.html
-        <!DOCTYPE html>
-        <html>
-        <head><title>CodeDeploy Test</title></head>
-        <body><h1>Hello from CodeDeploy + Nginx</h1></body>
-        </html>
-        EOF
-      - echo "Creating install_nginx.sh..."
-      - |
-        cat <<EOF > scripts/install_nginx.sh
-        #!/bin/bash
-        sudo yum update -y
-        sudo amazon-linux-extras install nginx1 -y
-        sudo systemctl enable nginx
-        sudo systemctl start nginx
-        EOF
-      - chmod +x scripts/install_nginx.sh
-      - echo "Creating delete_default.sh..."
-      - |
-        cat <<EOF > scripts/delete_default.sh
-        #!/bin/bash
-        sudo rm -rf /usr/share/nginx/html/*
-        EOF
-      - chmod +x scripts/delete_default.sh
-      
-      - echo "Creating appspec.yml..."
-      - |
-        cat <<EOF > appspec.yml
-        version: 0.0
-        os: linux
-        files:
-          - source: /
-            destination: /usr/share/nginx/html/
-            overwrite: true
-            runas: root 
-        hooks:
-          BeforeInstall:
-            - location: scripts/install_nginx.sh
-              timeout: 300
-              runas: root
-            - location: scripts/delete_default.sh
-              timeout: 300
-              runas: root
-        EOF
+      - echo Zipping backend for deployment...
+      - cd build && zip -r backend.zip . && cd ..
 
 artifacts:
   files:
-    - index.html
-    - scripts/install_nginx.sh
-    - scripts/delete_default.sh
+    - build/backend.zip
     - appspec.yml

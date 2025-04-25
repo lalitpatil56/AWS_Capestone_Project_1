@@ -1,14 +1,23 @@
 version: 0.0
 os: linux
+
 files:
-  - source: backend
+  - source: /
     destination: /home/ec2-user/backend
+    overwrite: true
+
 hooks:
+  BeforeInstall:
+    - location: stop_server.sh
+      timeout: 60
+      runas: ec2-user
+
   AfterInstall:
-    - location: backend/install.sh
+    - location: install_node.sh
       timeout: 300
       runas: ec2-user
+
   ApplicationStart:
-    - location: backend/start.sh
+    - location: start_server.sh
       timeout: 300
       runas: ec2-user
