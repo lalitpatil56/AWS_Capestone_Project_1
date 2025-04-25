@@ -20,7 +20,7 @@ resource "aws_codebuild_project" "frontend_build" {
   source {
     type      = "GITHUB"
     location  = "https://github.com/lalitpatil56/AWS_Capestone_Project_1.git"
-    buildspec = "/buildspec.yml"
+    buildspec = "buildspec.yml"
   }
   
   cache {
