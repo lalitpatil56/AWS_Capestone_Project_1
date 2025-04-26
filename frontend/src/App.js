@@ -61,11 +61,13 @@ function App() {
     boxShadow: '0 0 10px rgba(0,0,0,0.1)',
     borderRadius: '10px',
     backgroundColor: '#f9f9f9',
+    display: 'flex', 
+    alignItems: 'center'
   };
 
   const inputStyle = {
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'left',
     width: '100%',
     padding: '10px',
     marginBottom: '15px',
@@ -78,7 +80,7 @@ function App() {
     marginBottom: '5px',
     fontWeight: 'bold',
     display: 'flex', 
-    alignItems: 'center'
+    alignItems: 'left'
   };
 
   const buttonStyle = {
