@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import UsersTable from './UsersTable';
 
 function App() {
   const [formData, setFormData] = useState({
@@ -55,6 +56,7 @@ function App() {
         <br />
         <button type="submit">Submit</button>
       </form>
+      <UsersTable/>
     </div>
   );
 }

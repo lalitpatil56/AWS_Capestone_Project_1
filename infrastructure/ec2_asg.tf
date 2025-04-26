@@ -83,14 +83,24 @@ EOF
 */
 user_data = base64encode(<<EOF
 #!/bin/bash
+set -e  # Exit on error
+exec > /var/log/user-data.log 2>&1  # Log output for troubleshooting
+
+# Update system
 yum update -y
+
+# Install required packages
 yum install -y ruby wget
+
+# Install CodeDeploy agent
 cd /home/ec2-user
 wget https://aws-codedeploy-us-east-1.s3.us-east-1.amazonaws.com/latest/install
 chmod +x ./install
 ./install auto
-systemctl start codedeploy-agent
+
+# Enable and start agent
 systemctl enable codedeploy-agent
+systemctl start codedeploy-agent
 EOF
   )
 
@@ -105,15 +115,15 @@ EOF
 # Target Group
 resource "aws_lb_target_group" "webapp_tg" {
   name     = "webapp-tg"
-  port     = 80
+  port     = 5000
   protocol = "HTTP"
   vpc_id   = aws_vpc.main.id
   target_type = "instance"
   health_check {
-    path                = "/"
+    path                = "/users"
     protocol            = "HTTP"
-    interval            = 30
-    timeout             = 5
+    interval            = 300
+    timeout             = 120
     healthy_threshold   = 2
     unhealthy_threshold = 2
   }
@@ -141,9 +151,9 @@ resource "aws_lb_listener" "webapp_http" {
 
 # Auto Scaling Group
 resource "aws_autoscaling_group" "webapp_asg" {
-  desired_capacity     = 1
-  max_size             = 1
-  min_size             = 1
+  desired_capacity     = 2
+  max_size             = 2
+  min_size             = 2
   vpc_zone_identifier  = [aws_subnet.public_a.id, aws_subnet.public_b.id]
   target_group_arns    = [aws_lb_target_group.webapp_tg.arn]
   launch_template {
