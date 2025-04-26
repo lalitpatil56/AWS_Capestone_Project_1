@@ -94,6 +94,7 @@ function App() {
       <div style={layoutStyle}>
         <div style={formContainerStyle}>
           <h2>User Form</h2>
+          {successMessage && <div style={{ color: 'green', marginBottom: '10px' }}>{successMessage}</div>}
           <form onSubmit={handleSubmit}>
             <label style={labelStyle}>First Name:</label>
             <input type="text" name="firstname" value={formData.firstname} onChange={handleChange} required style={inputStyle} />
