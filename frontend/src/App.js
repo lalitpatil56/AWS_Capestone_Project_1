@@ -61,8 +61,8 @@ function App() {
     boxShadow: '0 0 10px rgba(0,0,0,0.1)',
     borderRadius: '10px',
     backgroundColor: '#f9f9f9',
-    display: 'flex', 
-    alignItems: 'center'
+    display: 'block', 
+    alignItems: 'left'
   };
 
   const inputStyle = {
