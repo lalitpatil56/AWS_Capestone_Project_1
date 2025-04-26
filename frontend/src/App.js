@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
-import UsersTable from './UsersTable';
+import UsersTable from './UserTable';
 
 function App() {
   const [formData, setFormData] = useState({
