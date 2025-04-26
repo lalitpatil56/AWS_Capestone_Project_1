@@ -21,7 +21,7 @@ function App() {
     const data = { firstname:formData.firstname, lastname:formData.lastname, age:formData.age };
   
     try {
-      const response = await fetch('http://localhost:5000/users', {
+      const response = await fetch('http://webapp-alb-1886176.us-east-1.elb.amazonaws.com/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
