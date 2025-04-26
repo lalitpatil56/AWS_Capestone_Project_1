@@ -19,7 +19,7 @@ function App() {
     e.preventDefault();
   
     const data = { firstname:formData.firstname, lastname:formData.lastname, age:formData.age };
-  
+        console.log(data)
     try {
       const response = await fetch('http://webapp-alb-1886176.us-east-1.elb.amazonaws.com/users', {
         method: 'POST',
