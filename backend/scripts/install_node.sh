@@ -10,9 +10,10 @@ fi
 export NVM_DIR="/home/ec2-user/.nvm"
 . "$NVM_DIR/nvm.sh"
 
-# Install Node.js
-nvm install 18
-nvm use 18
+# Install Node.js 16 (compatible with Amazon Linux 2)
+nvm install 16
+nvm use 16
+nvm alias default 16
 
 # Install pm2 globally
 npm install -g pm2
