@@ -9,6 +9,10 @@ function App() {
     age: ''
   });
 
+
+  const [refreshKey, setRefreshKey] = useState(0); // Key to trigger refresh
+  const [successMessage, setSuccessMessage] = useState('');
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -30,8 +34,15 @@ function App() {
 
       const result = await response.json();
       console.log('Result:', result);
+
+      setFormData({ firstname: '', lastname: '', age: '' }); // Clear form
+      setRefreshKey(prev => prev + 1); // Trigger table refresh
+      setSuccessMessage('User added successfully!');
+      setTimeout(() => setSuccessMessage(''), 3000); // Clear message after 3 sec
+
     } catch (error) {
       console.error('Error:', error);
+      setSuccessMessage('Error adding user.');
     }
   };
 
@@ -98,7 +109,7 @@ function App() {
         </div>
 
         <div style={{ flex: '1', padding: '20px' }}>
-          <UsersTable />
+          <UsersTable refreshKey={refreshKey}/>
         </div>
       </div>
     </div>

@@ -28,16 +28,17 @@ const containerStyle = {
   fontFamily: 'Arial, sans-serif',
   padding: '20px',
 };
+const UsersTable = ({ refreshKey }) => {
+    const [users, setUsers] = useState([]);
 
-const UsersTable = () => {
-  const [users, setUsers] = useState([]);
+
 
   useEffect(() => {
     fetch('http://webapp-alb-1886176.us-east-1.elb.amazonaws.com/users')
       .then((response) => response.json())
       .then((data) => setUsers(data))
       .catch((error) => console.error('Error fetching users:', error));
-  }, []);
+  }, [refreshKey]);
 
   return (
     <div style={containerStyle}>
