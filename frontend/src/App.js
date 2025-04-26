@@ -18,16 +18,16 @@ function App() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    const data = { firstname:formData.firstname, lastname:formData.lastname, age:formData.age };
-        console.log(data)
+
+    const data = { firstname: formData.firstname, lastname: formData.lastname, age: formData.age };
+    console.log(data);
     try {
       const response = await fetch('http://webapp-alb-1886176.us-east-1.elb.amazonaws.com/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
-  
+
       const result = await response.json();
       console.log('Result:', result);
     } catch (error) {
@@ -35,32 +35,62 @@ function App() {
     }
   };
 
+  const containerStyle = {
+    fontFamily: 'Arial, sans-serif',
+    maxWidth: '500px',
+    margin: '30px auto',
+    padding: '20px',
+    boxShadow: '0 0 10px rgba(0,0,0,0.1)',
+    borderRadius: '10px',
+    backgroundColor: '#f9f9f9',
+  };
+
+  const inputStyle = {
+    display: 'block',
+    width: '100%',
+    padding: '10px',
+    marginBottom: '15px',
+    border: '1px solid #ccc',
+    borderRadius: '4px',
+    fontSize: '16px',
+  };
+
+  const labelStyle = {
+    marginBottom: '5px',
+    fontWeight: 'bold',
+    display: 'block',
+  };
+
+  const buttonStyle = {
+    backgroundColor: '#4CAF50',
+    color: 'white',
+    padding: '12px 20px',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    fontSize: '16px',
+  };
+
   return (
     <div className="App">
-      <h1>User Form</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          First Name:
-          <input type="text" name="firstname" value={formData.firstname} onChange={handleChange} required />
-        </label>
-        <br />
-        <label>
-          Last Name:
-          <input type="text" name="lastname" value={formData.lastname} onChange={handleChange} required />
-        </label>
-        <br />
-        <label>
-          Age:
-          <input type="number" name="age" value={formData.age} onChange={handleChange} required />
-        </label>
-        <br />
-        <button type="submit">Submit</button>
-      </form>
-      <UsersTable/>
+      <div style={containerStyle}>
+        <h1 style={{ textAlign: 'center' }}>User Form</h1>
+        <form onSubmit={handleSubmit}>
+          <label style={labelStyle}>First Name:</label>
+          <input type="text" name="firstname" value={formData.firstname} onChange={handleChange} required style={inputStyle} />
+
+          <label style={labelStyle}>Last Name:</label>
+          <input type="text" name="lastname" value={formData.lastname} onChange={handleChange} required style={inputStyle} />
+
+          <label style={labelStyle}>Age:</label>
+          <input type="number" name="age" value={formData.age} onChange={handleChange} required style={inputStyle} />
+
+          <button type="submit" style={buttonStyle}>Submit</button>
+        </form>
+      </div>
+      <UsersTable />
     </div>
   );
 }
 
 export default App;
-
-
