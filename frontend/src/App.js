@@ -64,7 +64,8 @@ function App() {
   };
 
   const inputStyle = {
-    display: 'block',
+    display: 'flex',
+    alignItems: 'center',
     width: '100%',
     padding: '10px',
     marginBottom: '15px',
@@ -76,7 +77,8 @@ function App() {
   const labelStyle = {
     marginBottom: '5px',
     fontWeight: 'bold',
-    display: 'block',
+    display: 'flex', 
+    alignItems: 'center'
   };
 
   const buttonStyle = {
