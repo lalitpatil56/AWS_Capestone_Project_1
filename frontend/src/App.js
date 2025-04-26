@@ -35,10 +35,17 @@ function App() {
     }
   };
 
-  const containerStyle = {
+  const layoutStyle = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    padding: '30px',
     fontFamily: 'Arial, sans-serif',
-    maxWidth: '500px',
-    margin: '30px auto',
+    gap: '30px',
+  };
+
+  const formContainerStyle = {
+    flex: '1',
     padding: '20px',
     boxShadow: '0 0 10px rgba(0,0,0,0.1)',
     borderRadius: '10px',
@@ -73,22 +80,27 @@ function App() {
 
   return (
     <div className="App">
-      <div style={containerStyle}>
-        <h1 style={{ textAlign: 'center' }}>User Form</h1>
-        <form onSubmit={handleSubmit}>
-          <label style={labelStyle}>First Name:</label>
-          <input type="text" name="firstname" value={formData.firstname} onChange={handleChange} required style={inputStyle} />
+      <div style={layoutStyle}>
+        <div style={formContainerStyle}>
+          <h2>User Form</h2>
+          <form onSubmit={handleSubmit}>
+            <label style={labelStyle}>First Name:</label>
+            <input type="text" name="firstname" value={formData.firstname} onChange={handleChange} required style={inputStyle} />
 
-          <label style={labelStyle}>Last Name:</label>
-          <input type="text" name="lastname" value={formData.lastname} onChange={handleChange} required style={inputStyle} />
+            <label style={labelStyle}>Last Name:</label>
+            <input type="text" name="lastname" value={formData.lastname} onChange={handleChange} required style={inputStyle} />
 
-          <label style={labelStyle}>Age:</label>
-          <input type="number" name="age" value={formData.age} onChange={handleChange} required style={inputStyle} />
+            <label style={labelStyle}>Age:</label>
+            <input type="number" name="age" value={formData.age} onChange={handleChange} required style={inputStyle} />
 
-          <button type="submit" style={buttonStyle}>Submit</button>
-        </form>
+            <button type="submit" style={buttonStyle}>Submit</button>
+          </form>
+        </div>
+
+        <div style={{ flex: '1', padding: '20px' }}>
+          <UsersTable />
+        </div>
       </div>
-      <UsersTable />
     </div>
   );
 }
